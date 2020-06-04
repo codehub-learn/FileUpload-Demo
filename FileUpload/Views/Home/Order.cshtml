@@ -1,0 +1,128 @@
+﻿@model FileUpload.Models.OrderViewModel
+@using (Html.BeginForm())
+{
+    <p>
+        @Html.DropDownListFor(x => x.SelectedProductId,
+                new SelectList(Model.Products, "ID", "Name"), "-- Select Product--")
+    </p>
+    <br />
+    <br />
+    <p>
+        <select>
+            <option>-- Select Product--</option>
+            @foreach (var product in Model.Products)
+            {
+                <option selected="@(product.ID == Model.SelectedProductId)" value="@product.ID">
+                    @product.Name
+                </option>
+            }
+        </select>
+    </p>
+
+
+    <input type="button" value="fake submit" />
+    <p>---------------------------------------------</p>
+    <br />
+
+    <input type="button" onclick="addCustomer()" value="AddCustomer" />
+    <input type="button" onclick="AddOrder()" value="AddOrder" />
+    <input type="button" onclick="getCustomer()" value="GetCustomer" />
+    <div id="responseDiv">0</div>
+
+}
+
+<script>
+    function getCustomer() {
+
+        actionMethod = "POST"
+        actionUrl = "/home/getCustomer"
+
+        sendData = {
+            "id": 1
+        }
+
+        $.ajax({
+            url: actionUrl,
+            dataType: 'json',
+
+            type: actionMethod,
+            data: JSON.stringify(sendData),
+
+            contentType: 'application/json', //* important to use here
+            processData: false,
+            success: function (data, textStatus, jQxhr) {
+                $('#responseDiv').html("The update has been made successfully " + JSON.stringify(data));
+
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+
+    }
+
+
+
+
+    function addCustomer() {
+
+        actionMethod = "POST"
+        actionUrl = "/home/AddCustomer"
+
+        sendData = {
+            "Name": "Georgios"
+        }
+
+        $.ajax({
+            url: actionUrl,
+            dataType: 'json',
+
+            type: actionMethod,
+            data: JSON.stringify(sendData),
+
+            contentType: 'application/json', //* important to use here
+            processData: false,
+            success: function (data, textStatus, jQxhr) {
+                $('#responseDiv').html("The update has been made successfully " + JSON.stringify(data));
+
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+
+    }
+
+
+
+    function AddOrder() {
+
+        actionMethod = "POST"
+        actionUrl = "/home/AddOrder"
+
+        sendData = {
+            "Name": "Project",
+            "CustomerId": 1
+        }
+
+        $.ajax({
+            url: actionUrl,
+            dataType: 'json',
+
+            type: actionMethod,
+            data: JSON.stringify(sendData),
+
+            contentType: 'application/json', //* important to use here
+            processData: false,
+            success: function (data, textStatus, jQxhr) {
+                $('#responseDiv').html("The update has been made successfully " + JSON.stringify(data));
+
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+
+    }
+
+</script>
